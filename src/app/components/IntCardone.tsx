@@ -21,8 +21,8 @@ const IntCardone = () => {
   const p5opacity = useTransform(scrollY,[1110,1387.5],[0,1])
   const p5x = useTransform(scrollY,[1110,1387.5],[100,0])
 
-  const p6opacity = useTransform(scrollY,[1387.5,1600],[0,1])
-  const p6x = useTransform(scrollY,[1387.5,1600],[100,0])
+  // const p6opacity = useTransform(scrollY,[1387.5,1600],[0,1])
+  // const p6x = useTransform(scrollY,[1387.5,1600],[100,0])
 
   return (
     <div className=" text-white flex flex-col sm:flex-row h-full w-full bg-gradient-to-r from-gray-200 to-gray-600 rounded-3xl overflow-hidden shadow-xl">
@@ -33,7 +33,7 @@ const IntCardone = () => {
     <motion.p className="mb-2"
     style={{opacity:p1opacity,x:p1x}}
     >
-      Depression isn't merely <span className="font-bold text-red-700">sadness</span>—it's an <span className="italic text-gray-700">invisible weight</span>, a slow, relentless
+      Depression isn't merely <span className="font-bold text-red-700">sadness</span>—it&apos;s an <span className="italic text-gray-700">invisible weight</span>, a slow, relentless
       <span className="font-semibold text-gray-900">drag</span> that suffocates over <span className="font-bold text-gray-900">280 million lives</span>.
     </motion.p>
 

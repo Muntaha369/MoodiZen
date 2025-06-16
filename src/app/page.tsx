@@ -4,8 +4,7 @@ import React from 'react'
 import { motion, useScroll, useTransform } from 'motion/react'
 import IntCardone from './components/IntCardone'
 
-const page = () => {
-  const arr = Array(1).fill(1)
+const Page = () => {
   const {scrollY} = useScroll()
 
   const opacity = useTransform(scrollY,[0,600,1600,2000],[1,1,1,0])
@@ -48,4 +47,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page
