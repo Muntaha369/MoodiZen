@@ -1,8 +1,12 @@
 import React,{useEffect} from 'react'
 import axios from 'axios'
 
-  export const postData = async(email:string,pass:string)=>{
-    const res = await axios.post("http://localhost:3001/users",{email,pass});
+  export const postData = async(email:string,password:string)=>{
+    const res = await axios.post("http://localhost:8000/api/auth/signup",{email,password});
     console.log(res)
   }
 
+  export const verifyData = async(email:string,password:string)=>{
+    const res = await axios.post("http://localhost:8000/api/auth/login",{email,password});
+    console.log(res)
+  }

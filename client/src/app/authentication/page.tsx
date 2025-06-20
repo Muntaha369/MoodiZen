@@ -2,7 +2,7 @@
 
 import { IconBrandAppleFilled, IconBrandGoogle, IconBrandGoogleFilled } from '@tabler/icons-react'
 import { Account } from '../components/account'
-import { postData } from '../components/Auth'
+import { postData, verifyData } from '../components/Auth'
 import React,{useState} from 'react'
 import { toast } from 'react-toastify';
 
@@ -56,50 +56,78 @@ const Page = () => {
 
 const Tab1 = () =>{ 
   
-  const [data, setData] = useState({
-    email:"",
-    password:""
-  })
+  const [email, setEmail] = useState("")
+      const [pass, setPass] = useState("")
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!email.trim() || !pass.trim()) {
+      return toast.error("Please enter both email and password.");
+    }
+
+    if (!/^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+      return toast.error("Please enter a valid email.");
+    }
+
+    if (pass.length < 4 || pass.length > 10) {
+      return toast.error("Password must be between 4 and 10 characters.");
+    }
+
+    verifyData(email, pass);
+  };
   
   return(
   <div className="flex w-full flex-col items-center justify-center gap-4 rounded-xl p-3 pb-4 ">
     <div>
       <h1 className="font-font text-lg text-white sm:text-black">Sign in to your account</h1>
     </div>
+  <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
     <div className="w-full">
       <label htmlFor="username" className="text-sm text-white sm:text-black">
-        Username
+        Email
       </label>
       <input
-        name="username"
-        placeholder="Badri"
-        type="text"
-        className="mt-1 h-10 w-full rounded-md border px-1 placeholder-neutral-400 outline-none focus:ring-2 focus:ring-neutral-800"
-      />
-    </div>
-    <div className="w-full">
-      <label htmlFor="password" className="text-sm text-white sm:text-black">
-        Password
-      </label>
-      <input
-        name="password"
-        type="password"
-        placeholder="Password"
-        className="mt-1 h-10 w-full rounded-md border px-1 placeholder-neutral-400 outline-none focus:ring-2 focus:ring-neutral-800 "
-      />
+            id="email"
+            name="email"
+            type="text"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="you@example.com"
+            className="mt-1 h-10 w-full rounded-md border px-2 placeholder-neutral-400 outline-none focus:ring-2 focus:ring-neutral-100 sm:focus:ring-neutral-800 text-gray-100 sm:text-black"
+          />
+        </div>
+
+        <div className="w-full">
+          <label htmlFor="password" className="text-sm text-white sm:text-black">
+            Password
+          </label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            value={pass}
+            onChange={(e) => setPass(e.target.value)}
+            placeholder="••••••••"
+            className="mt-1 h-10 w-full rounded-md border px-2 placeholder-neutral-400 outline-none focus:ring-2  focus:ring-neutral-100 sm:focus:ring-neutral-800 text-gray-100 sm:text-black"
+          />
     </div>
     <div className="mt-2.5 w-full">
-      <button className="h-10 w-full rounded-md bg-neutral-900 font-medium text-white hover:cursor-pointer">
-        Submit
-      </button>
+      <button
+          type="submit"
+          className="h-10 w-full rounded-md bg-neutral-900 font-medium text-white hover:cursor-pointer"
+        >
+          Submit
+        </button>
     </div>
 
     <div className="relative mt-6 w-full">
-      <div className="absolute left-1/2 z-10 -translate-x-1/2 -translate-y-1/2 bg-transperent sm:bg-gray-100 px-2 text-neutral-400  ">
+      <div className="absolute left-1/2 z-10 -translate-x-1/2 -translate-y-1/2 bg-transparent px-2 text-neutral-400 sm:bg-gray-100">
         Or
       </div>
-      <div className="border-b border-neutral-300 hidden sm:visible"></div>
+      <div className="border-b border-neutral-300 sm:block hidden"></div>
     </div>
+
     <div className="mt-6 flex w-full flex-col gap-4">
       <button className="font-regular flex h-10 w-full items-center justify-center gap-2 rounded-md bg-neutral-900 text-white hover:cursor-pointer">
         <IconBrandGoogleFilled /> <div>Continue with Google</div>
@@ -108,6 +136,7 @@ const Tab1 = () =>{
         <IconBrandAppleFilled /> <div>Continue with Apple</div>
       </button>
     </div>
+    </form>
   </div>
 )
 }
@@ -137,7 +166,7 @@ const handleSubmit = (e: React.FormEvent) => {
 
   return (
     <div className="flex w-full flex-col items-center justify-center gap-4 rounded-xl p-3 pb-4">
-      <h1 className="text-lg font-semibold text-white sm:text-black">Create an account</h1>
+            <h1 className="font-font text-lg text-white sm:text-black">Create an account</h1>
 
       <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
         <div className="w-full">
@@ -172,7 +201,7 @@ const handleSubmit = (e: React.FormEvent) => {
 
         <button
           type="submit"
-          className="h-10 w-full rounded-md bg-neutral-900 font-medium text-white hover:cursor-pointer"
+          className="h-10 w-full rounded-md bg-neutral-900 font-medium mt-2.5 text-white hover:cursor-pointer"
         >
           Submit
         </button>
