@@ -1,6 +1,6 @@
 "use client"
 
-import { IconBrandAppleFilled, IconBrandGoogle, IconBrandGoogleFilled } from '@tabler/icons-react'
+import { IconBrandAppleFilled, IconBrandGoogleFilled } from '@tabler/icons-react'
 import { Account } from '../components/account'
 import { postData, verifyData } from '../components/Auth'
 import React,{useState} from 'react'
