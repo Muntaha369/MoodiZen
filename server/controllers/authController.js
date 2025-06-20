@@ -30,9 +30,38 @@ const Signup = async(req,res)=>{
   res.json({
     msg:'user Created sucssesfully',
     TOKEN,
-    user:UserCreated
   })
 
 }
 
-module.exports = {Signup} 
+const Login = async(req,res)=>{
+  const { email, password } = req.body;
+  const userExist = await User.findOne({email});
+  
+  if(!userExist) {return res.json({msg:'User do not exist'})}
+
+  const isPasswordValid = await bcrypt.compare(password, userExist.password);
+ 
+  if (!isPasswordValid) {
+    return res.status(401).json({ msg: "Invalid credentials" });
+  }
+
+  const TOKEN = jwt.sign({
+    userId: userExist._id.toString(),
+      email: userExist.email,
+    },
+      secretKey
+    ,
+    {
+      expiresIn: "30d",
+    }
+  );
+  
+  res.json({
+    msg:'logged in successfully',
+    TOKEN
+  })
+  
+}
+
+module.exports = { Signup, Login } 
