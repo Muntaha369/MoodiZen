@@ -1,5 +1,10 @@
+"use client"
+
 import { IconBrandAppleFilled, IconBrandGoogle, IconBrandGoogleFilled } from '@tabler/icons-react'
 import { Account } from '../components/account'
+import { postData } from '../components/Auth'
+import React,{useState} from 'react'
+import { toast } from 'react-toastify';
 
 const Page = () => {
   // you can grab url path from next/headers package in server component and insert defaultTab value based on that (if its /sign-in - 0, if it's /sign-up then 1, you got what I mean)
@@ -49,7 +54,14 @@ const Page = () => {
   )
 }
 
-const Tab1 = () => (
+const Tab1 = () =>{ 
+  
+  const [data, setData] = useState({
+    email:"",
+    password:""
+  })
+  
+  return(
   <div className="flex w-full flex-col items-center justify-center gap-4 rounded-xl p-3 pb-4 ">
     <div>
       <h1 className="font-font text-lg text-white sm:text-black">Sign in to your account</h1>
@@ -77,7 +89,7 @@ const Tab1 = () => (
       />
     </div>
     <div className="mt-2.5 w-full">
-      <button className="h-10 w-full rounded-md bg-neutral-900 font-medium text-white ">
+      <button className="h-10 w-full rounded-md bg-neutral-900 font-medium text-white hover:cursor-pointer">
         Submit
       </button>
     </div>
@@ -89,56 +101,6 @@ const Tab1 = () => (
       <div className="border-b border-neutral-300 hidden sm:visible"></div>
     </div>
     <div className="mt-6 flex w-full flex-col gap-4">
-      <button className="font-regular flex h-10 w-full items-center justify-center gap-2 rounded-md bg-neutral-900 text-white ">
-        <IconBrandGoogleFilled /> <div>Continue with Google</div>
-      </button>
-      <button className="font-regular flex h-10 w-full items-center justify-center gap-2 rounded-md bg-neutral-900 text-white ">
-        <IconBrandAppleFilled /> <div>Continue with Apple</div>
-      </button>
-    </div>
-  </div>
-)
-
-const Tab2 = () => (
-  <div className="flex w-full flex-col items-center justify-center gap-4 rounded-xl p-3 pb-4">
-    <div>
-      <h1 className="font-font text-lg text-white sm:text-black">Create an account</h1>
-    </div>
-    <div className="w-full">
-      <label htmlFor="username" className="text-sm text-white sm:text-black">
-        Username
-      </label>
-      <input
-        name="username"
-        placeholder="Badri"
-        type="text"
-        className="mt-1 h-10 w-full rounded-md border px-1 placeholder-neutral-400 outline-none focus:ring-2 focus:ring-neutral-800 hover:cursor-pointer"
-      />
-    </div>
-    <div className="w-full">
-      <label htmlFor="password" className="text-sm text-white sm:text-black">
-        Password
-      </label>
-      <input
-        name="password"
-        type="password"
-        placeholder="Password"
-        className="mt-1 h-10 w-full rounded-md border px-1 placeholder-neutral-400 outline-none focus:ring-2 focus:ring-neutral-800 hover:cursor-pointer"
-      />
-    </div>
-    <div className="mt-2.5 w-full">
-      <button className="h-10 w-full rounded-md bg-neutral-900 font-medium text-white hover:cursor-pointer">
-        Submit
-      </button>
-    </div>
-
-    <div className="relative mt-6 w-full">
-      <div className="absolute left-1/2 z-10 -translate-x-1/2 -translate-y-1/2 bg-transparent sm:bg-gray-100 px-2 text-neutral-400 ">
-        Or
-      </div>
-      <div className="border-b border-neutral-300 hidden sm:visible"></div>
-    </div>
-    <div className="mt-6 flex w-full flex-col gap-4">
       <button className="font-regular flex h-10 w-full items-center justify-center gap-2 rounded-md bg-neutral-900 text-white hover:cursor-pointer">
         <IconBrandGoogleFilled /> <div>Continue with Google</div>
       </button>
@@ -148,5 +110,98 @@ const Tab2 = () => (
     </div>
   </div>
 )
+}
 
+const Tab2 = () => {
+
+    const [email, setEmail] = useState("")
+    const [pass, setPass] = useState("")
+
+const handleSubmit = (e: React.FormEvent) => {
+  e.preventDefault();
+
+  if (!email.trim() || !pass.trim()) {
+    return toast.error("Please enter both email and password.");
+  }
+
+  if (!/^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+    return toast.error("Please enter a valid email.");
+  }
+
+  if (pass.length < 4 || pass.length > 10) {
+    return toast.error("Password must be between 4 and 10 characters.");
+  }
+
+  postData(email, pass);
+};
+
+  return (
+    <div className="flex w-full flex-col items-center justify-center gap-4 rounded-xl p-3 pb-4">
+      <h1 className="text-lg font-semibold text-white sm:text-black">Create an account</h1>
+
+      <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
+        <div className="w-full">
+          <label htmlFor="email" className="text-sm text-white sm:text-black">
+            Email
+          </label>
+          <input
+            id="email"
+            name="email"
+            type="text"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="you@example.com"
+            className="mt-1 h-10 w-full rounded-md border px-2 placeholder-neutral-400 outline-none focus:ring-2 focus:ring-neutral-100 sm:focus:ring-neutral-800 text-gray-100 sm:text-black"
+          />
+        </div>
+
+        <div className="w-full">
+          <label htmlFor="password" className="text-sm text-white sm:text-black">
+            Password
+          </label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            value={pass}
+            onChange={(e) => setPass(e.target.value)}
+            placeholder="••••••••"
+            className="mt-1 h-10 w-full rounded-md border px-2 placeholder-neutral-400 outline-none focus:ring-2  focus:ring-neutral-100 sm:focus:ring-neutral-800 text-gray-100 sm:text-black"
+          />
+        </div>
+
+        <button
+          type="submit"
+          className="h-10 w-full rounded-md bg-neutral-900 font-medium text-white hover:cursor-pointer"
+        >
+          Submit
+        </button>
+
+        <div className="relative mt-6 w-full">
+          <div className="absolute left-1/2 z-10 -translate-x-1/2 -translate-y-1/2 bg-transparent px-2 text-neutral-400 sm:bg-gray-100">
+            Or
+          </div>
+          <div className="border-b border-neutral-300 sm:block hidden"></div>
+        </div>
+
+        <div className="mt-6 flex flex-col gap-4">
+          <button
+            type="button"
+            className="flex h-10 w-full items-center justify-center gap-2 rounded-md bg-neutral-900 text-white"
+          >
+            <IconBrandGoogleFilled />
+            <span>Continue with Google</span>
+          </button>
+          <button
+            type="button"
+            className="flex h-10 w-full items-center justify-center gap-2 rounded-md bg-neutral-900 text-white"
+          >
+            <IconBrandAppleFilled />
+            <span>Continue with Apple</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};
 export default Page
