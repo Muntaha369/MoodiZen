@@ -8,7 +8,7 @@ const Signup = async(req,res)=>{
   const userExist = await User.findOne({email});
 
   if (userExist){
-    return res.json({msg:"user already exists"})
+    return res.status(401).json({msg:"user already exists"})
   }
 
   const saltRound = 10
@@ -27,7 +27,7 @@ const Signup = async(req,res)=>{
     }
   );
 
-  res.json({
+  res.status(200).json({
     msg:'user Created sucssesfully',
     TOKEN,
   })
@@ -38,7 +38,7 @@ const Login = async(req,res)=>{
   const { email, password } = req.body;
   const userExist = await User.findOne({email});
   
-  if(!userExist) {return res.json({msg:'User do not exist'})}
+  if(!userExist) {return res.status(401).json({msg:'User do not exist'})}
 
   const isPasswordValid = await bcrypt.compare(password, userExist.password);
  
@@ -57,7 +57,7 @@ const Login = async(req,res)=>{
     }
   );
   
-  res.json({
+  res.status(200).json({
     msg:'logged in successfully',
     TOKEN
   })
