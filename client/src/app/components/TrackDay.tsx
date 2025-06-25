@@ -1,0 +1,64 @@
+import React, { useState } from 'react';
+
+const TrackDay = () => {
+  const emojis = ['😭', '🥲', '😑', '😊', '😎'];
+  const percentages = [20, 40, 60, 80, 100];
+
+  const [selectedEmojiIndex, setSelectedEmojiIndex] = useState<number | null>(null);
+  const [selectedPercentage, setSelectedPercentage] = useState<number | null>(null);
+
+  return (
+    <div className='flex rounded-2xl flex-col items-center justify-center min-h-[400px] w-full max-w-lg mx-auto p-6 bg-white shadow-xl border border-gray-100'>
+      <h1 className='text-3xl sm:text-4xl font-extrabold text-gray-800 mb-8 text-center leading-tight'>
+        How do you feel Today?
+      </h1>
+
+      {/* Emoji Selection */}
+      <div className='flex justify-center items-center gap-4 sm:gap-6 mb-10 flex-wrap'>
+        {emojis.map((emoji, idx) => (
+          <button
+            key={idx}
+            onClick={() => setSelectedEmojiIndex(idx)}
+            className={` text-2xl sm:text-3xl md:text-3xl p-3 rounded-full transition-all duration-300 ease-in-out
+              ${selectedEmojiIndex === idx
+                ? 'bg-blue-100 ring-4 ring-blue-400 transform scale-110 shadow-lg'
+                : 'bg-gray-100 hover:bg-gray-200 transform hover:scale-105'
+              }`}
+            aria-label={`Select ${emoji} emoji`}
+          >
+            {emoji}
+          </button>
+        ))}
+      </div>
+
+      {/* Percentage Buttons */}
+      <div className='flex flex-wrap justify-center gap-3 sm:gap-4'>
+        {percentages.map((percent, idx) => (
+          <button
+            key={idx}
+            onClick={() => setSelectedPercentage(percent)}
+            className={`flex items-center justify-center px-6 py-3 rounded-full text-lg font-semibold
+              transition-all duration-300 ease-in-out border-2 hover:cursor-pointer
+              ${selectedPercentage === percent
+                ? 'bg-gradient-to-br from-blue-500 to-blue-700 text-white shadow-lg border-blue-700 transform scale-105'
+                : 'bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100 hover:shadow-md'
+              }`}
+          >
+            {percent}%
+          </button>
+        ))}
+      </div>
+
+      {/* Optional: Display selected choices */}
+      {(selectedEmojiIndex !== null || selectedPercentage !== null) && (
+        <p className="mt-8 text-lg text-gray-600">
+          You selected: {selectedEmojiIndex !== null && <span className="font-bold text-blue-600">{emojis[selectedEmojiIndex]}</span>}
+          {selectedEmojiIndex !== null && selectedPercentage !== null && ' and '}
+          {selectedPercentage !== null && <span className="font-bold text-blue-600">{selectedPercentage}%</span>}
+        </p>
+      )}
+    </div>
+  );
+};
+
+export default TrackDay;
