@@ -5,7 +5,9 @@ const data = [
   {name: 'Page B', uv: 300, pv: 2400, amt: 2400},
   {name: 'Page C', uv: 200, pv: 2400, amt: 2400},
   {name: 'Page D', uv: 100, pv: 2400, amt: 2400},
-  {name: 'Page E', uv: 500, pv: 2400, amt: 2400}
+  {name: 'Page E', uv: 500, pv: 2400, amt: 2400},
+  {name: 'Page F', uv: 700, pv: 2400, amt: 2400},
+  {name: 'Page G', uv: 630, pv: 2400, amt: 2400}
 ];
 const BarChart = () => {
 
@@ -22,11 +24,11 @@ const BarChart = () => {
                 <ReBarChart width={100} height={100} data={data}>
                     <XAxis dataKey="name" stroke="#8884d8" />
                     {
-                    windowWidth <=587? null : <YAxis />
+                    windowWidth <=630? null : <YAxis />
                     }
                     <Tooltip />
                     <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-                    <Bar dataKey="uv" fill="#036ffc" barSize={windowWidth <=587? 40 : 70} />
+                    <Bar dataKey="uv" fill="#036ffc" barSize={windowWidth <=630? 40 : 70} />
                 </ReBarChart>
     </ResponsiveContainer>
   )
