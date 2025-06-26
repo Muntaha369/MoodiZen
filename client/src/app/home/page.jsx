@@ -1,11 +1,13 @@
 "use client"
 
-import React,{useState} from 'react'
+import React,{ useState, useEffect } from 'react'
 import BarChart from '../components/BarChart'
 import LineChart from '../components/LineChart'
 import PieChart from '../components/PieChart'
 import TrackDay from '../components/TrackDay'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useData } from '../components/store'
+import { useTemp } from '../components/store'
 
 const ChartType = [
   {type: 'Bar', border:"rounded-tl-2xl"},
@@ -39,8 +41,15 @@ const Cards = [
 const page = () => {
 
   const [activeIndex, setActiveIndex] = useState(null);
-  const [chart, setChart] = useState("Bar")
-  const [renderComp, setRenderComp] = useState(null)
+  const [chart, setChart] = useState("Bar");
+  const [renderComp, setRenderComp] = useState(null);
+
+  const { userData, trackMood } = useData();
+  const { temp } = useTemp();
+  
+  useEffect(() => {
+    console.log(userData);
+  }, [userData]);
 
   return (
     <div className=' bg-gradient-to-r from-white  to-blue-300'>
@@ -97,13 +106,13 @@ const page = () => {
           {renderComp !== null && (
             <motion.div 
               className='z-20 flex justify-center items-center absolute top-1/2 left-1/2
-               transform -translate-x-1/2 -translate-y-1/2 h-screen w-screen'
+               transform -translate-x-1/2 -translate-y-1/2 h-screen w-screen '
               initial={{ opacity:0,scale:0.9 }}
               animate={{ opacity:1,scale:1 }}
               exit={{ opacity:0,scale:0.9 }}
               transition={{ duration: 0.5, ease: "easeInOut" }}
             >
-              <div className='flex flex-col bg-white w-[280px] rounded-2xl sm:w-auto relative'>
+              <div className='flex flex-col bg-white w-[280px] rounded-2xl sm:w-auto relative border-2  border-gray-100 shadow-2xl'>
               <div className='w-full relative rounded-2xl'>
                 <button
                   onClick={() => setRenderComp(null)}
@@ -118,6 +127,13 @@ const page = () => {
               </div>
 
               {renderComp}
+                <div className='w-full flex justify-center items-center m-3'>
+                  <button className="w-[140px] text-xl font-semibold px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-full shadow-lg transform transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-xl"
+                  onClick={()=>trackMood(temp)}
+                  >
+                    Track &#10003;
+                  </button>
+                </div>
               </div>
             </motion.div>
           )}
