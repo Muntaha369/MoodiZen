@@ -4,7 +4,8 @@ import { IconBrandAppleFilled, IconBrandGoogleFilled } from '@tabler/icons-react
 import { Account } from '../components/account'
 import { postData, verifyData } from '../components/Auth'
 import React,{useState} from 'react'
-import { toast } from 'react-toastify';
+import { toast } from 'react-toastify'
+import { useRouter } from 'next/navigation'
 
 const Page = () => {
   // you can grab url path from next/headers package in server component and insert defaultTab value based on that (if its /sign-in - 0, if it's /sign-up then 1, you got what I mean)
@@ -55,11 +56,13 @@ const Page = () => {
 }
 
 const Tab1 = () =>{ 
+
+  const router = useRouter()
   
   const [email, setEmail] = useState("")
       const [pass, setPass] = useState("")
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!email.trim() || !pass.trim()) {
@@ -74,7 +77,12 @@ const Tab1 = () =>{
       return toast.error("Password must be between 4 and 10 characters.");
     }
 
-    verifyData(email, pass);
+    const result = await verifyData(email, pass);
+
+    if(result === 'Succesfull'){
+      router.push('./home')
+    }
+
   };
   
   return(

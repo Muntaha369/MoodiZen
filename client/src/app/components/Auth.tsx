@@ -1,5 +1,7 @@
 import axios from 'axios'
 import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
+
 
 export const postData = async (email: string, password: string) => {
   try {
@@ -16,10 +18,12 @@ export const postData = async (email: string, password: string) => {
 }
 
 export const verifyData = async (email: string, password: string) => {
+  
+
   try {
     const res = await axios.post("http://localhost:8000/api/auth/login", { email, password });
     toast.success('Signed in successfully');
-    console.log(res)
+    return 'Succesfull'
   } catch (err: any) {
     if (err.response && err.response.status === 401) {
       toast.error('Not signed up');
