@@ -41,7 +41,7 @@ const TrackDay = () => {
 
 
   return (
-    <div className='flex rounded-2xl flex-col items-center justify-center min-h-[400px] w-full max-w-lg mx-auto p-6 bg-white '>
+    <div className='flex rounded-2xl flex-col items-center justify-center min-h-[300px] w-full max-w-lg mx-auto p-6 bg-white'>
       <h1 className='text-3xl sm:text-4xl font-extrabold text-gray-800 mb-8 text-center leading-tight'>
         How do you feel Today?
       </h1>
@@ -87,15 +87,7 @@ const TrackDay = () => {
           </button>
         ))}
       </div>
-
-      {/* Optional: Display selected choices */}
-      {(selectedEmojiIndex !== null || selectedPercentage !== null) && (
-        <p className="mt-8 text-lg text-gray-600">
-          You selected: {selectedEmojiIndex !== null && <span className="font-bold text-blue-600">{emojis[selectedEmojiIndex]}</span>}
-          {selectedEmojiIndex !== null && selectedPercentage !== null && ' and '}
-          {selectedPercentage !== null && <span className="font-bold text-blue-600">{selectedPercentage}%</span>}
-        </p>
-      )}
+     
     </div>
   );
 };
